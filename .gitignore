@@ -1,0 +1,42 @@
+# Java
+*.class
+*.log
+*.jar
+*.war
+*.ear
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Spring Boot
+application-local.properties
+application-dev.properties
+*.pid
+
+# Build
+target/
+build/
+out/
+
+# Node (frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Banco de Dados
+*.mdf
+*.ldf
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.key
+*.pem
+.env
