@@ -15,12 +15,37 @@ function AnimalForm() {
         raca: '',
         dataNascimento: '',
         pesoAtual: '',
-        status: 'Ativo',
+        status: 'Em Crescimento',
         localizacao: ''
     });
 
-    const especies = ['Bovino', 'Galinha', 'Porco', 'Ovelha', 'Cavalo', 'Pato', 'Ganso'];
-    const statusList = ['Ativo', 'Vendido', 'Abatido', 'Doente'];
+    // Tipos de aves para granja de galinhas
+    const tiposAves = [
+        // Poedeiras (Ovos)
+        'Poedeira Branca',
+        'Poedeira Vermelha',
+        'Poedeira Caipira',
+
+        // Corte (Abate)
+        'Frango de Corte',
+        'Frango Caipira',
+
+        // Reprodução
+        'Galo Reprodutor',
+        'Galinha Matriz',
+        'Pinto'
+    ];
+
+    // Status específicos para granja
+    const statusList = [
+        'Em Produção',
+        'Em Crescimento',
+        'Para Abate',
+        'Para Reprodução',
+        'Para Venda',
+        'Doente',
+        'Morta'
+    ];
 
     useEffect(() => {
         if (isEdit) {
@@ -56,15 +81,15 @@ function AnimalForm() {
         try {
             if (isEdit) {
                 await api.put(`/animais/${id}`, formData);
-                alert('Animal atualizado com sucesso!');
+                alert('Ave atualizada com sucesso!');
             } else {
                 await api.post('/animais', formData);
-                alert('Animal cadastrado com sucesso!');
+                alert('Ave cadastrada com sucesso!');
             }
             navigate('/animais');
         } catch (error) {
             console.error('Erro ao salvar animal:', error);
-            alert('Erro ao salvar animal. Verifique os dados.');
+            alert('Erro ao salvar. Verifique os dados.');
         }
     };
 
@@ -72,40 +97,42 @@ function AnimalForm() {
         <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
             <Paper elevation={3} sx={{ p: 4 }}>
                 <Typography variant="h4" component="h1" gutterBottom>
-                    {isEdit ? '✏️ Editar Animal' : '➕ Novo Animal'}
+                    {isEdit ? '✏️ Editar Ave' : '➕ Nova Ave'}
                 </Typography>
 
                 <form onSubmit={handleSubmit}>
                     <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: '1fr 1fr' }}>
                         <TextField
                             fullWidth
-                            label="Nome"
+                            label="Identificação/Nome"
                             name="nome"
                             value={formData.nome}
                             onChange={handleChange}
                             required
+                            helperText="Ex: Mimosa 01, Lote A-15"
                         />
 
                         <TextField
                             fullWidth
                             select
-                            label="Espécie"
+                            label="Tipo da Ave"
                             name="especie"
                             value={formData.especie}
                             onChange={handleChange}
                             required
                         >
-                            {especies.map((esp) => (
-                                <MenuItem key={esp} value={esp}>{esp}</MenuItem>
+                            {tiposAves.map((tipo) => (
+                                <MenuItem key={tipo} value={tipo}>{tipo}</MenuItem>
                             ))}
                         </TextField>
 
                         <TextField
                             fullWidth
-                            label="Raça"
+                            label="Linhagem/Raça"
                             name="raca"
                             value={formData.raca}
                             onChange={handleChange}
+                            helperText="Ex: Isa Brown, Cobb 500"
                         />
 
                         <TextField
@@ -149,6 +176,7 @@ function AnimalForm() {
                             value={formData.localizacao}
                             onChange={handleChange}
                             sx={{ gridColumn: 'span 2' }}
+                            helperText="Ex: Galpão A, Gaiola 15, Piquete B"
                         />
                     </Box>
 

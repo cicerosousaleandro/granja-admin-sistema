@@ -59,7 +59,7 @@ function AnimalList() {
 
             <TextField
                 fullWidth
-                placeholder="Filtrar por nome ou espécie..."
+                placeholder="Filtrar por identificação, tipo ou linhagem..."
                 value={filtro}
                 onChange={(e) => setFiltro(e.target.value)}
                 sx={{ mb: 3 }}
@@ -71,9 +71,9 @@ function AnimalList() {
                     <TableHead>
                         <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
                             <TableCell><strong>ID</strong></TableCell>
-                            <TableCell><strong>Nome</strong></TableCell>
-                            <TableCell><strong>Espécie</strong></TableCell>
-                            <TableCell><strong>Raça</strong></TableCell>
+                            <TableCell><strong>Identificação</strong></TableCell>
+                            <TableCell><strong>Tipo</strong></TableCell>
+                            <TableCell><strong>Linhagem</strong></TableCell>
                             <TableCell><strong>Peso (kg)</strong></TableCell>
                             <TableCell><strong>Status</strong></TableCell>
                             <TableCell><strong>Ações</strong></TableCell>

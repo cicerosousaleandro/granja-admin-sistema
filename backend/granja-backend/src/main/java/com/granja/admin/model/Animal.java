@@ -18,9 +18,9 @@ public class Animal {
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
     private String nome;
 
-    @NotBlank(message = "Espécie é obrigatória")
-    @Pattern(regexp = "^(Bovino|Galinha|Porco|Ovelha|Cavalo|Pato|Ganso)$",
-            message = "Espécie inválida")
+    @NotBlank(message = "Tipo da ave é obrigatório")
+    @Pattern(regexp = "^(Poedeira Branca|Poedeira Vermelha|Poedeira Caipira|Frango de Corte|Frango Caipira|Galo Reprodutor|Galinha Matriz|Pinto)$",
+            message = "Tipo inválido. Opções: Poedeira Branca, Poedeira Vermelha, Poedeira Caipira, Frango de Corte, Frango Caipira, Galo Reprodutor, Galinha Matriz, Pinto")
     private String especie;
 
     private String raca;
@@ -36,8 +36,8 @@ public class Animal {
     private BigDecimal pesoAtual;
 
     @NotBlank(message = "Status é obrigatório")
-    @Pattern(regexp = "^(Ativo|Vendido|Abatido|Doente)$",
-            message = "Status inválido")
+    @Pattern(regexp = "^(Em Produção|Em Crescimento|Para Abate|Para Reprodução|Para Venda|Doente|Morta)$",
+            message = "Status inválido. Opções: Em Produção, Em Crescimento, Para Abate, Para Reprodução, Para Venda, Doente, Morta")
     private String status;
 
     private String localizacao;
