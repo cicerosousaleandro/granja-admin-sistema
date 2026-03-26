@@ -5,6 +5,11 @@ import Navbar from './components/Navbar';
 import AnimalList from './pages/animais/AnimalList';
 import AnimalForm from './pages/animais/AnimalForm';
 import AnimalDetails from './pages/animais/AnimalDetails';
+import ReceitaList from './pages/financeiro/ReceitaList';
+import ReceitaForm from './pages/financeiro/ReceitaForm';
+import DespesaList from './pages/financeiro/DespesaList';
+import DespesaForm from './pages/financeiro/DespesaForm';
+import Dashboard from './pages/financeiro/Dashboard';
 
 const theme = createTheme({
     palette: {
@@ -27,8 +32,16 @@ function App() {
                     <Route path="/animais/:id" element={<AnimalDetails />} />
                     <Route path="/animais/:id/editar" element={<AnimalForm />} />
 
-                    {/* Financeiro - Adicionar depois */}
-                    <Route path="/financeiro" element={<div>Em construção</div>} />
+                    {/* Financeiro */}
+                    <Route path="/financeiro" element={<Dashboard />} />
+                    <Route path="/financeiro/receitas" element={<ReceitaList />} />
+                    <Route path="/financeiro/receitas/nova" element={<ReceitaForm />} />
+                    <Route path="/financeiro/receitas/:id" element={<ReceitaForm />} />
+                    <Route path="/financeiro/receitas/:id/editar" element={<ReceitaForm />} />
+                    <Route path="/financeiro/despesas" element={<DespesaList />} />
+                    <Route path="/financeiro/despesas/nova" element={<DespesaForm />} />
+                    <Route path="/financeiro/despesas/:id" element={<DespesaForm />} />
+                    <Route path="/financeiro/despesas/:id/editar" element={<DespesaForm />} />
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

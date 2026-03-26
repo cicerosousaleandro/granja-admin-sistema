@@ -29,7 +29,7 @@ public class FinanceiroService {
     public ResumoFinanceiroDTO gerarResumo(LocalDate dataInicio, LocalDate dataFim) {
         ResumoFinanceiroDTO resumo = new ResumoFinanceiroDTO();
 
-        // CORREÇÃO: Cria variáveis finais para usar no lambda
+        // Se não tiver datas, usa todos os registros
         final LocalDate inicio;
         final LocalDate fim;
 
@@ -52,7 +52,7 @@ public class FinanceiroService {
         List<Receita> receitas = receitaRepository.findAll();
         List<Despesa> despesas = despesaRepository.findAll();
 
-        // Filtra por período (agora usa variáveis final)
+        // Filtra por período
         List<Receita> receitasFiltradas = receitas.stream()
                 .filter(r -> !r.getData().isBefore(inicio) && !r.getData().isAfter(fim))
                 .collect(Collectors.toList());
@@ -61,13 +61,13 @@ public class FinanceiroService {
                 .filter(d -> !d.getData().isBefore(inicio) && !d.getData().isAfter(fim))
                 .collect(Collectors.toList());
 
-        // Calcula totais
+        // Calcula totais (CORRIGIDO: getValorTotal() em vez de getValor())
         BigDecimal totalReceitas = receitasFiltradas.stream()
-                .map(Receita::getValor)
+                .map(Receita::getValorTotal)  // ← CORRIGIDO
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal totalDespesas = despesasFiltradas.stream()
-                .map(Despesa::getValor)
+                .map(Despesa::getValorTotal)  // ← CORRIGIDO
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         resumo.setTotalReceitas(totalReceitas);
@@ -78,13 +78,13 @@ public class FinanceiroService {
         Map<String, BigDecimal> receitasPorCategoria = receitasFiltradas.stream()
                 .collect(Collectors.groupingBy(
                         Receita::getCategoria,
-                        Collectors.reducing(BigDecimal.ZERO, Receita::getValor, BigDecimal::add)
+                        Collectors.reducing(BigDecimal.ZERO, Receita::getValorTotal, BigDecimal::add)  // ← CORRIGIDO
                 ));
 
         Map<String, BigDecimal> despesasPorCategoria = despesasFiltradas.stream()
                 .collect(Collectors.groupingBy(
                         Despesa::getCategoria,
-                        Collectors.reducing(BigDecimal.ZERO, Despesa::getValor, BigDecimal::add)
+                        Collectors.reducing(BigDecimal.ZERO, Despesa::getValorTotal, BigDecimal::add)  // ← CORRIGIDO
                 ));
 
         resumo.setReceitasPorCategoria(receitasPorCategoria);

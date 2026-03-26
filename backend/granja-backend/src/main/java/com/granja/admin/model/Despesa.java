@@ -22,16 +22,27 @@ public class Despesa {
     @Column(length = 500)
     private String descricao;
 
-    @NotNull(message = "Valor é obrigatório")
-    @DecimalMin(value = "0.01", message = "Valor deve ser maior que 0")
-    @Column(name = "valor", precision = 10, scale = 2)
-    private BigDecimal valor;
+    @NotNull(message = "Quantidade é obrigatória")
+    @DecimalMin(value = "0.01", message = "Quantidade deve ser maior que 0")
+    @Column(name = "quantidade", precision = 10, scale = 2)
+    private BigDecimal quantidade;
+
+    @NotNull(message = "Preço unitário é obrigatório")
+    @DecimalMin(value = "0.01", message = "Preço deve ser maior que 0")
+    @Column(name = "preco_unitario", precision = 10, scale = 2)
+    private BigDecimal precoUnitario;
+
+    @NotNull(message = "Valor total é obrigatório")
+    @DecimalMin(value = "0.01", message = "Valor total deve ser maior que 0")
+    @Column(name = "valor_total", precision = 10, scale = 2)
+    private BigDecimal valorTotal;
 
     @NotBlank(message = "Categoria é obrigatória")
-    @Pattern(regexp = "^(Ração|Medicamentos|Manutenção|Veterinário|Mão de Obra|Outros)$",
+    @Pattern(regexp = "^(Ração|Medicamentos|Manutenção|Energia|Mão de Obra|Outros)$",
             message = "Categoria inválida")
     private String categoria;
 
+    private String fornecedor;
     private String observacoes;
 
     @Column(name = "data_registro", updatable = false)
@@ -40,6 +51,13 @@ public class Despesa {
     // Construtor
     public Despesa() {
         this.dataRegistro = LocalDateTime.now();
+    }
+
+    // Método para calcular valor total automaticamente
+    public void calcularValorTotal() {
+        if (this.quantidade != null && this.precoUnitario != null) {
+            this.valorTotal = this.quantidade.multiply(this.precoUnitario);
+        }
     }
 
     // Getters e Setters
@@ -52,11 +70,26 @@ public class Despesa {
     public String getDescricao() { return descricao; }
     public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public BigDecimal getValor() { return valor; }
-    public void setValor(BigDecimal valor) { this.valor = valor; }
+    public BigDecimal getQuantidade() { return quantidade; }
+    public void setQuantidade(BigDecimal quantidade) {
+        this.quantidade = quantidade;
+        calcularValorTotal();
+    }
+
+    public BigDecimal getPrecoUnitario() { return precoUnitario; }
+    public void setPrecoUnitario(BigDecimal precoUnitario) {
+        this.precoUnitario = precoUnitario;
+        calcularValorTotal();
+    }
+
+    public BigDecimal getValorTotal() { return valorTotal; }
+    public void setValorTotal(BigDecimal valorTotal) { this.valorTotal = valorTotal; }
 
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
+
+    public String getFornecedor() { return fornecedor; }
+    public void setFornecedor(String fornecedor) { this.fornecedor = fornecedor; }
 
     public String getObservacoes() { return observacoes; }
     public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
@@ -69,7 +102,9 @@ public class Despesa {
                 "idDespesa=" + idDespesa +
                 ", data=" + data +
                 ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
+                ", quantidade=" + quantidade +
+                ", precoUnitario=" + precoUnitario +
+                ", valorTotal=" + valorTotal +
                 ", categoria='" + categoria + '\'' +
                 '}';
     }
