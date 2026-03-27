@@ -44,7 +44,7 @@ function AnimalList() {
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
                 <Typography variant="h4" component="h1">
-                    🐔 Animais
+                     Animais
                 </Typography>
                 <Button
                     variant="contained"

@@ -1,7 +1,16 @@
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
+    const navigate = useNavigate();
+    const { logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -14,6 +23,12 @@ function Navbar() {
                     </Button>
                     <Button color="inherit" component={Link} to="/financeiro">
                         Financeiro
+                    </Button>
+                    <Button color="inherit" component={Link} to="/configuracoes">
+                        Configurações
+                    </Button>
+                    <Button color="inherit" onClick={handleLogout}>
+                        Sair
                     </Button>
                 </Box>
             </Toolbar>
