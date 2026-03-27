@@ -2,6 +2,7 @@ package com.granja.admin.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,45 +24,75 @@ public class Alimentacao {
     private LocalDate data;
 
     @NotNull(message = "Quantidade é obrigatória")
-    @DecimalMin(value = "0.1", message = "Quantidade deve ser maior que 0")
-    @Column(name = "quantidade_kg")
+    @DecimalMin(value = "0.01", message = "Quantidade deve ser maior que 0")
+    @Column(name = "quantidade_kg", precision = 10, scale = 2)
     private BigDecimal quantidadeKg;
 
-    @NotBlank(message = "Tipo de ração é obrigatório")
-    @Column(name = "tipo_racao")
     private String tipoRacao;
-
-    @Column(length = 500)
     private String observacoes;
 
     @Column(name = "data_registro", updatable = false)
     private LocalDateTime dataRegistro;
 
-    // Construtor
     public Alimentacao() {
         this.dataRegistro = LocalDateTime.now();
     }
 
-    // Getters e Setters
-    public Long getIdAlimentacao() { return idAlimentacao; }
-    public void setIdAlimentacao(Long idAlimentacao) { this.idAlimentacao = idAlimentacao; }
+    public Long getIdAlimentacao() {
+        return idAlimentacao;
+    }
 
-    public Animal getAnimal() { return animal; }
-    public void setAnimal(Animal animal) { this.animal = animal; }
+    public void setIdAlimentacao(Long idAlimentacao) {
+        this.idAlimentacao = idAlimentacao;
+    }
 
-    public LocalDate getData() { return data; }
-    public void setData(LocalDate data) { this.data = data; }
+    public Animal getAnimal() {
+        return animal;
+    }
 
-    public BigDecimal getQuantidadeKg() { return quantidadeKg; }
-    public void setQuantidadeKg(BigDecimal quantidadeKg) { this.quantidadeKg = quantidadeKg; }
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
 
-    public String getTipoRacao() { return tipoRacao; }
-    public void setTipoRacao(String tipoRacao) { this.tipoRacao = tipoRacao; }
+    public LocalDate getData() {
+        return data;
+    }
 
-    public String getObservacoes() { return observacoes; }
-    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
 
-    public LocalDateTime getDataRegistro() { return dataRegistro; }
+    public BigDecimal getQuantidadeKg() {
+        return quantidadeKg;
+    }
+
+    public void setQuantidadeKg(BigDecimal quantidadeKg) {
+        this.quantidadeKg = quantidadeKg;
+    }
+
+    public String getTipoRacao() {
+        return tipoRacao;
+    }
+
+    public void setTipoRacao(String tipoRacao) {
+        this.tipoRacao = tipoRacao;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
+
+    public LocalDateTime getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(LocalDateTime dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
 
     @Override
     public String toString() {

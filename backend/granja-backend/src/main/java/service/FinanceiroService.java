@@ -7,12 +7,13 @@ import com.granja.admin.repository.DespesaRepository;
 import com.granja.admin.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class FinanceiroService {
@@ -23,22 +24,18 @@ public class FinanceiroService {
     @Autowired
     private DespesaRepository despesaRepository;
 
-    /**
-     * Gera resumo financeiro do período (ou todos os registros se datas não informadas)
-     */
     public ResumoFinanceiroDTO gerarResumo(LocalDate dataInicio, LocalDate dataFim) {
+
         ResumoFinanceiroDTO resumo = new ResumoFinanceiroDTO();
 
-        // Se não tiver datas, usa todos os registros
-        final LocalDate inicio;
-        final LocalDate fim;
-
+        LocalDate inicio;
         if (dataInicio == null) {
             inicio = LocalDate.of(2000, 1, 1);
         } else {
             inicio = dataInicio;
         }
 
+        LocalDate fim;
         if (dataFim == null) {
             fim = LocalDate.now();
         } else {
@@ -48,44 +45,70 @@ public class FinanceiroService {
         resumo.setDataInicio(inicio);
         resumo.setDataFim(fim);
 
-        // Busca receitas e despesas do período
-        List<Receita> receitas = receitaRepository.findAll();
-        List<Despesa> despesas = despesaRepository.findAll();
+        List<Receita> todasReceitas = receitaRepository.findAll();
+        List<Despesa> todasDespesas = despesaRepository.findAll();
 
-        // Filtra por período
-        List<Receita> receitasFiltradas = receitas.stream()
-                .filter(r -> !r.getData().isBefore(inicio) && !r.getData().isAfter(fim))
-                .collect(Collectors.toList());
+        List<Receita> receitasDoPeriodo = new ArrayList<>();
+        for (Receita receita : todasReceitas) {
+            if (!receita.getData().isBefore(inicio) && !receita.getData().isAfter(fim)) {
+                receitasDoPeriodo.add(receita);
+            }
+        }
 
-        List<Despesa> despesasFiltradas = despesas.stream()
-                .filter(d -> !d.getData().isBefore(inicio) && !d.getData().isAfter(fim))
-                .collect(Collectors.toList());
+        List<Despesa> despesasDoPeriodo = new ArrayList<>();
+        for (Despesa despesa : todasDespesas) {
+            if (!despesa.getData().isBefore(inicio) && !despesa.getData().isAfter(fim)) {
+                despesasDoPeriodo.add(despesa);
+            }
+        }
 
-        // Calcula totais (CORRIGIDO: getValorTotal() em vez de getValor())
-        BigDecimal totalReceitas = receitasFiltradas.stream()
-                .map(Receita::getValorTotal)  // ← CORRIGIDO
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalReceitas = BigDecimal.ZERO;
+        for (Receita receita : receitasDoPeriodo) {
+            if (receita.getValorTotal() != null) {
+                totalReceitas = totalReceitas.add(receita.getValorTotal());
+            }
+        }
 
-        BigDecimal totalDespesas = despesasFiltradas.stream()
-                .map(Despesa::getValorTotal)  // ← CORRIGIDO
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalDespesas = BigDecimal.ZERO;
+        for (Despesa despesa : despesasDoPeriodo) {
+            if (despesa.getValorTotal() != null) {
+                totalDespesas = totalDespesas.add(despesa.getValorTotal());
+            }
+        }
 
         resumo.setTotalReceitas(totalReceitas);
         resumo.setTotalDespesas(totalDespesas);
-        resumo.setSaldo(totalReceitas.subtract(totalDespesas));
 
-        // Agrupa por categoria
-        Map<String, BigDecimal> receitasPorCategoria = receitasFiltradas.stream()
-                .collect(Collectors.groupingBy(
-                        Receita::getCategoria,
-                        Collectors.reducing(BigDecimal.ZERO, Receita::getValorTotal, BigDecimal::add)  // ← CORRIGIDO
-                ));
+        BigDecimal saldo = totalReceitas.subtract(totalDespesas);
+        resumo.setSaldo(saldo);
 
-        Map<String, BigDecimal> despesasPorCategoria = despesasFiltradas.stream()
-                .collect(Collectors.groupingBy(
-                        Despesa::getCategoria,
-                        Collectors.reducing(BigDecimal.ZERO, Despesa::getValorTotal, BigDecimal::add)  // ← CORRIGIDO
-                ));
+        Map<String, BigDecimal> receitasPorCategoria = new HashMap<>();
+
+        for (Receita receita : receitasDoPeriodo) {
+            String categoria = receita.getCategoria();
+            BigDecimal valor = receita.getValorTotal();
+
+            if (receitasPorCategoria.containsKey(categoria)) {
+                BigDecimal valorAtual = receitasPorCategoria.get(categoria);
+                receitasPorCategoria.put(categoria, valorAtual.add(valor));
+            } else {
+                receitasPorCategoria.put(categoria, valor);
+            }
+        }
+
+        Map<String, BigDecimal> despesasPorCategoria = new HashMap<>();
+
+        for (Despesa despesa : despesasDoPeriodo) {
+            String categoria = despesa.getCategoria();
+            BigDecimal valor = despesa.getValorTotal();
+
+            if (despesasPorCategoria.containsKey(categoria)) {
+                BigDecimal valorAtual = despesasPorCategoria.get(categoria);
+                despesasPorCategoria.put(categoria, valorAtual.add(valor));
+            } else {
+                despesasPorCategoria.put(categoria, valor);
+            }
+        }
 
         resumo.setReceitasPorCategoria(receitasPorCategoria);
         resumo.setDespesasPorCategoria(despesasPorCategoria);

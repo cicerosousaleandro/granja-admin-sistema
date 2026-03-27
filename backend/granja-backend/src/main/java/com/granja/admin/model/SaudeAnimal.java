@@ -2,6 +2,7 @@ package com.granja.admin.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -22,57 +23,97 @@ public class SaudeAnimal {
     private LocalDate data;
 
     @NotBlank(message = "Tipo de evento é obrigatório")
-    @Pattern(regexp = "^(Vacinação|Tratamento|Consulta|Exame)$",
-            message = "Tipo inválido. Valores: Vacinação, Tratamento, Consulta, Exame")
-    @Column(name = "tipo_evento")
+    @Pattern(regexp = "^(Vacinação|Tratamento|Consulta)$",
+            message = "Tipo de evento inválido")
     private String tipoEvento;
 
     @NotBlank(message = "Descrição é obrigatória")
-    @Column(length = 500)
+    @Column(length = 1000)
     private String descricao;
 
     private String medicamento;
-
     private String veterinario;
 
     @Column(name = "data_registro", updatable = false)
     private LocalDateTime dataRegistro;
 
-    // Construtor
     public SaudeAnimal() {
         this.dataRegistro = LocalDateTime.now();
     }
 
-    // Getters e Setters
-    public Long getIdSaude() { return idSaude; }
-    public void setIdSaude(Long idSaude) { this.idSaude = idSaude; }
+    public Long getIdSaude() {
+        return idSaude;
+    }
 
-    public Animal getAnimal() { return animal; }
-    public void setAnimal(Animal animal) { this.animal = animal; }
+    public void setIdSaude(Long idSaude) {
+        this.idSaude = idSaude;
+    }
 
-    public LocalDate getData() { return data; }
-    public void setData(LocalDate data) { this.data = data; }
+    public Animal getAnimal() {
+        return animal;
+    }
 
-    public String getTipoEvento() { return tipoEvento; }
-    public void setTipoEvento(String tipoEvento) { this.tipoEvento = tipoEvento; }
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
 
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public LocalDate getData() {
+        return data;
+    }
 
-    public String getMedicamento() { return medicamento; }
-    public void setMedicamento(String medicamento) { this.medicamento = medicamento; }
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
 
-    public String getVeterinario() { return veterinario; }
-    public void setVeterinario(String veterinario) { this.veterinario = veterinario; }
+    public String getTipoEvento() {
+        return tipoEvento;
+    }
 
-    public LocalDateTime getDataRegistro() { return dataRegistro; }
+    public void setTipoEvento(String tipoEvento) {
+        this.tipoEvento = tipoEvento;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getMedicamento() {
+        return medicamento;
+    }
+
+    public void setMedicamento(String medicamento) {
+        this.medicamento = medicamento;
+    }
+
+    public String getVeterinario() {
+        return veterinario;
+    }
+
+    public void setVeterinario(String veterinario) {
+        this.veterinario = veterinario;
+    }
+
+    public LocalDateTime getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(LocalDateTime dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
 
     @Override
     public String toString() {
         return "SaudeAnimal{" +
                 "idSaude=" + idSaude +
-                ", tipoEvento='" + tipoEvento + '\'' +
                 ", data=" + data +
+                ", tipoEvento='" + tipoEvento + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", medicamento='" + medicamento + '\'' +
+                ", veterinario='" + veterinario + '\'' +
                 '}';
     }
 }

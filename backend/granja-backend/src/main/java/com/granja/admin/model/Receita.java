@@ -2,6 +2,7 @@ package com.granja.admin.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,50 +48,89 @@ public class Receita {
     @Column(name = "data_registro", updatable = false)
     private LocalDateTime dataRegistro;
 
-    // Construtor
     public Receita() {
         this.dataRegistro = LocalDateTime.now();
     }
 
-    // Método para calcular valor total automaticamente
     public void calcularValorTotal() {
-        if (this.quantidade != null && this.precoUnitario != null) {
-            this.valorTotal = this.quantidade.multiply(this.precoUnitario);
+        if (quantidade != null && precoUnitario != null) {
+            this.valorTotal = quantidade.multiply(precoUnitario);
         }
     }
 
-    // Getters e Setters
-    public Long getIdReceita() { return idReceita; }
-    public void setIdReceita(Long idReceita) { this.idReceita = idReceita; }
+    public Long getIdReceita() {
+        return idReceita;
+    }
 
-    public LocalDate getData() { return data; }
-    public void setData(LocalDate data) { this.data = data; }
+    public void setIdReceita(Long idReceita) {
+        this.idReceita = idReceita;
+    }
 
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public LocalDate getData() {
+        return data;
+    }
 
-    public BigDecimal getQuantidade() { return quantidade; }
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public BigDecimal getQuantidade() {
+        return quantidade;
+    }
+
     public void setQuantidade(BigDecimal quantidade) {
         this.quantidade = quantidade;
         calcularValorTotal();
     }
 
-    public BigDecimal getPrecoUnitario() { return precoUnitario; }
+    public BigDecimal getPrecoUnitario() {
+        return precoUnitario;
+    }
+
     public void setPrecoUnitario(BigDecimal precoUnitario) {
         this.precoUnitario = precoUnitario;
         calcularValorTotal();
     }
 
-    public BigDecimal getValorTotal() { return valorTotal; }
-    public void setValorTotal(BigDecimal valorTotal) { this.valorTotal = valorTotal; }
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
 
-    public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
-    public String getObservacoes() { return observacoes; }
-    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
+    public String getCategoria() {
+        return categoria;
+    }
 
-    public LocalDateTime getDataRegistro() { return dataRegistro; }
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
+
+    public LocalDateTime getDataRegistro() {
+        return dataRegistro;
+    }
+
+    public void setDataRegistro(LocalDateTime dataRegistro) {
+        this.dataRegistro = dataRegistro;
+    }
 
     @Override
     public String toString() {

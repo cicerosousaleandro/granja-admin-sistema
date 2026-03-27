@@ -6,7 +6,7 @@ function Navbar() {
         <AppBar position="static">
             <Toolbar>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    🐔 Granja Admin
+                    🐔 Administração de Granja
                 </Typography>
                 <Box>
                     <Button color="inherit" component={Link} to="/animais">
