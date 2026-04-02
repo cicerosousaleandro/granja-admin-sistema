@@ -48,4 +48,33 @@ O **Granja Admin Sistema** é uma aplicação web que permite gerenciar de forma
 
 ---
 
+---
 
+Telas do sistema:
+
+
+Login
+
+<img width="1919" height="896" alt="image" src="https://github.com/user-attachments/assets/c1e47db9-7e20-4ca0-8d0b-dc40e6346595" />
+
+
+Cadastro de animais:
+
+<img width="1919" height="898" alt="image" src="https://github.com/user-attachments/assets/5034a9e7-fe31-4830-860f-fdba27c792b7" />
+
+Tela do financeiro:
+
+<img width="1915" height="981" alt="image" src="https://github.com/user-attachments/assets/0237b19b-8e98-4dd7-8f12-ed902bff6d9c" />
+
+Tela de novas receitas:
+
+<img width="1919" height="743" alt="image" src="https://github.com/user-attachments/assets/a6a93651-82b3-4c7d-b0b9-f1cb2d4c7ef2" />
+
+Tela de novas despesas:
+
+<img width="1919" height="746" alt="image" src="https://github.com/user-attachments/assets/c0051acc-ccdb-494f-a686-79a75301a248" />
+
+Tela de cadastro de usuários:
+
+<img width="1915" height="681" alt="image" src="https://github.com/user-attachments/assets/af15edef-5ef8-4aad-a966-28cfc59ae89a" />
+<img width="1919" height="860" alt="image" src="https://github.com/user-attachments/assets/2e17f5d8-38dd-4c12-90db-cf104357498b" />
