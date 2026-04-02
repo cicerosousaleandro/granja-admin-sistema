@@ -15,16 +15,7 @@ public class FinanceiroController {
     @Autowired
     private FinanceiroService service;
 
-    /**
-     * GET /api/financeiro/resumo
-     * Retorna resumo financeiro com totais e agrupamento por categoria
-     *
-     * Parâmetros opcionais:
-     * - dataInicio: filtra receitas/despesas a partir desta data
-     * - dataFim: filtra receitas/despesas até esta data
-     *
-     * Exemplo: /api/financeiro/resumo?dataInicio=2026-03-01&dataFim=2026-03-31
-     */
+
     @GetMapping("/resumo")
     public ResponseEntity<ResumoFinanceiroDTO> gerarResumo(
             @RequestParam(required = false)

@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface SaudeAnimalRepository extends JpaRepository<SaudeAnimal, Long> {
 
-    // Busca todos os registros de saúde de um animal específico
+
     List<SaudeAnimal> findByAnimalIdAnimal(Long idAnimal);
 }

@@ -17,12 +17,12 @@ public class SaudeAnimalService {
     @Autowired
     private AnimalRepository animalRepository;
 
-    // Listar todos os registros de saúde de um animal
+
     public List<SaudeAnimal> buscarPorAnimal(Long idAnimal) {
         return repository.findByAnimalIdAnimal(idAnimal);
     }
 
-    // Registrar novo evento de saúde
+
     public SaudeAnimal registrar(SaudeAnimal saude, Long idAnimal) {
         Animal animal = animalRepository.findById(idAnimal)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado com ID: " + idAnimal));
@@ -31,7 +31,7 @@ public class SaudeAnimalService {
         return repository.save(saude);
     }
 
-    // Deletar registro de saúde
+
     public void deletar(Long id) {
         repository.deleteById(id);
     }

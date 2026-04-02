@@ -1,6 +1,14 @@
 package com.granja.admin.controller;
 
+import com.granja.admin.dto.AuthResponseDTO;
+import com.granja.admin.model.Usuario;
+import com.granja.admin.service.UsuarioService;
+import com.granja.admin.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -10,43 +18,61 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AuthController {
 
-    // Usuário master hardcoded
-    private static final String USUARIO_MASTER = "supervisor";
-    private static final String SENHA_MASTER = "login@321564";
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        // Verifica credenciais
-        if (USUARIO_MASTER.equals(request.getUsername()) &&
-                SENHA_MASTER.equals(request.getPassword())) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("logado", true);
-            response.put("usuario", request.getUsername());
-            response.put("token", "token-fake-" + System.currentTimeMillis());
-            response.put("mensagem", "Login realizado com sucesso!");
+            Usuario usuario = usuarioService.buscarPorUsername(request.getUsername());
+
+            String token = jwtUtil.generateToken(usuario.getUsername(), usuario.getRole());
+
+            AuthResponseDTO response = new AuthResponseDTO();
+            response.setToken(token);
+            response.setUsername(usuario.getUsername());
+            response.setRole(usuario.getRole());
+            response.setNome(usuario.getNome());
+            response.setMensagem("Login realizado com sucesso!");
 
             return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("logado", false);
+            error.put("mensagem", "Usuário ou senha inválidos");
+            return ResponseEntity.status(401).body(error);
         }
-
-        Map<String, Object> error = new HashMap<>();
-        error.put("logado", false);
-        error.put("mensagem", "Usuário ou senha inválidos");
-
-        return ResponseEntity.status(401).body(error);
     }
 
     @PostMapping("/usuarios")
-    public ResponseEntity<?> criarUsuario(@RequestBody Map<String, String> request) {
-        // Simplificado - só retorna ok para demonstração
-        Map<String, Object> response = new HashMap<>();
-        response.put("mensagem", "Usuário criado com sucesso (demo)");
-        response.put("usuario", request.get("username"));
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> criarUsuario(@RequestBody Usuario novoUsuario) {
+        try {
+            Usuario criado = usuarioService.criarUsuario(novoUsuario);
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensagem", "Usuário criado com sucesso");
+            response.put("id", criado.getId());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    Map.of("erro", "Erro ao criar usuário: " + e.getMessage())
+            );
+        }
     }
 
-    // Classe interna para receber o login
     public static class LoginRequest {
         private String username;
         private String password;

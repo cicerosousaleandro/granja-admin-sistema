@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface AlimentacaoRepository extends JpaRepository<Alimentacao, Long> {
 
-    // Busca todas as alimentações de um animal específico
+
     List<Alimentacao> findByAnimalIdAnimal(Long idAnimal);
 }

@@ -8,6 +8,5 @@ import java.util.List;
 @Repository
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
-    // Busca despesas por categoria
     List<Despesa> findByCategoria(String categoria);
 }

@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface ReceitaRepository extends JpaRepository<Receita, Long> {
 
-    // Busca receitas por categoria
+
     List<Receita> findByCategoria(String categoria);
 }
