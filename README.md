@@ -53,7 +53,7 @@ O **Granja Admin Sistema** é uma aplicação web que permite gerenciar de forma
 Telas do sistema:
 
 
-Login
+Login:
 
 <img width="1919" height="896" alt="image" src="https://github.com/user-attachments/assets/c1e47db9-7e20-4ca0-8d0b-dc40e6346595" />
 
