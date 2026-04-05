@@ -78,3 +78,95 @@ Tela de cadastro de usuários:
 
 <img width="1915" height="681" alt="image" src="https://github.com/user-attachments/assets/af15edef-5ef8-4aad-a966-28cfc59ae89a" />
 <img width="1919" height="860" alt="image" src="https://github.com/user-attachments/assets/2e17f5d8-38dd-4c12-90db-cf104357498b" />
+
+
+---
+
+🛠️ Guia de Instalação e Configuração
+
+Siga os passos abaixo para rodar o projeto localmente em poucos minutos.
+
+📋 Pré-requisitos
+
+Certifique-se de ter instalado:
+
+☕ Java JDK 21
+🟢 Node.js (v18 ou superior)
+🐬 MySQL Server 8.0+
+💻 IDE (IntelliJ IDEA ou VS Code)
+📥 Clonando o Repositório
+
+Execute no terminal:
+
+git clone https://github.com/cicerosousaleandro/granja-admin-sistema.git
+
+cd granja-admin-sistema
+
+🗄️ Configuração do Banco de Dados (MySQL)
+Abra o MySQL Workbench ou terminal
+Crie o banco de dados:
+
+CREATE DATABASE granja_db;
+
+Configuração padrão:
+
+Usuário: root
+Senha: 88380590
+
+⚠️ Caso sua senha seja diferente, altere no arquivo:
+backend/granja-backend/src/main/resources/application.properties
+
+⚙️ Configurando a IDE
+IntelliJ IDEA
+Vá em: File > Project Structure > Project
+Selecione o SDK 21
+Clique com botão direito no pom.xml (backend)
+Selecione: Add as Maven Project
+VS Code
+Instale a extensão: Extension Pack for Java
+Configure o JDK 21 em: Java: Configure Java Runtime
+▶️ Executando o Sistema
+🔙 Backend (Spring Boot)
+
+cd backend/granja-backend
+./mvnw.cmd spring-boot:run
+
+O sistema irá:
+
+Criar as tabelas automaticamente
+Criar usuário administrador padrão
+🎨 Frontend (React + Vite)
+
+cd frontend
+npm install
+npm run dev
+
+🌐 Acesso ao Sistema
+
+Abra no navegador:
+
+http://localhost:5173
+
+🔐 Credenciais de Acesso
+
+Usuário: admin
+Senha: admin123
+
+📊 Dados de Exemplo (Opcional)
+
+Para visualizar o dashboard com dados preenchidos:
+
+Importe o arquivo:
+sql/import_data.sql
+
+Use o MySQL Workbench para importar
+
+🧠 Tecnologias Utilizadas
+☕ Java + Spring Boot
+⚛️ React + Vite
+🐬 MySQL
+🔐 JWT (autenticação)
+
+
+
+
